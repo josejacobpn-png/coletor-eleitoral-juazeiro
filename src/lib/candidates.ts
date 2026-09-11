@@ -1,0 +1,87 @@
+export const OTHER = "outro";
+
+export type RaceKey = "president" | "governor" | "federal" | "state";
+
+export interface Race {
+  key: RaceKey;
+  label: string;
+  short: string;
+  options: string[];
+  choiceField: string;
+  otherField: string;
+}
+
+export const RACES: Race[] = [
+  {
+    key: "president",
+    label: "Presidente",
+    short: "Pres.",
+    options: ["13", "22"],
+    choiceField: "president_choice",
+    otherField: "president_other",
+  },
+  {
+    key: "governor",
+    label: "Governador",
+    short: "Gov.",
+    options: ["13", "45"],
+    choiceField: "governor_choice",
+    otherField: "governor_other",
+  },
+  {
+    key: "federal",
+    label: "Deputado Federal",
+    short: "Dep. Fed.",
+    options: ["F. Santana", "Yuri do Paredão", "André Figueiredo", "Fernanda Pessoa"],
+    choiceField: "federal_choice",
+    otherField: "federal_other",
+  },
+  {
+    key: "state",
+    label: "Deputado Estadual",
+    short: "Dep. Est.",
+    options: ["Zé Ailton", "Giovane Sampaio", "Felipe Vasques"],
+    choiceField: "state_choice",
+    otherField: "state_other",
+  },
+];
+
+export interface VisitRow {
+  id: string;
+  visited_at: string;
+  neighborhood: string;
+  voter_name: string | null;
+  notes: string | null;
+  president_choice: string;
+  president_other: string | null;
+  governor_choice: string;
+  governor_other: string | null;
+  federal_choice: string;
+  federal_other: string | null;
+  state_choice: string;
+  state_other: string | null;
+}
+
+export function answerFor(visit: VisitRow, race: Race): string {
+  const choice = visit[race.choiceField as keyof VisitRow] as string;
+  const other = visit[race.otherField as keyof VisitRow] as string | null;
+  if (choice === OTHER) return other?.trim() ? other.trim() : "Outro";
+  return choice;
+}
+
+export function formatDateTime(iso: string): string {
+  return new Date(iso).toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+export function toLocalInputValue(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(
+    date.getHours(),
+  )}:${pad(date.getMinutes())}`;
+}
