@@ -75,11 +75,19 @@ function RegistrarPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!neighborhood.trim()) return toast.error("Informe o bairro ou localidade.");
+    if (!neighborhood.trim()) {
+      toast.error("Informe o bairro ou localidade.");
+      return;
+    }
     for (const race of RACES) {
-      if (!choices[race.key]) return toast.error(`Escolha a opção de ${race.label}.`);
-      if (choices[race.key] === OTHER && !others[race.key].trim())
-        return toast.error(`Digite o nome ou número para ${race.label}.`);
+      if (!choices[race.key]) {
+        toast.error(`Escolha a opção de ${race.label}.`);
+        return;
+      }
+      if (choices[race.key] === OTHER && !others[race.key].trim()) {
+        toast.error(`Digite o nome ou número para ${race.label}.`);
+        return;
+      }
     }
 
     const payload: Record<string, string | null> = {
