@@ -14,7 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      visits: {
+        Row: {
+          created_at: string
+          federal_choice: string
+          federal_other: string | null
+          governor_choice: string
+          governor_other: string | null
+          id: string
+          neighborhood: string
+          notes: string | null
+          president_choice: string
+          president_other: string | null
+          state_choice: string
+          state_other: string | null
+          user_id: string
+          visited_at: string
+          voter_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          federal_choice: string
+          federal_other?: string | null
+          governor_choice: string
+          governor_other?: string | null
+          id?: string
+          neighborhood: string
+          notes?: string | null
+          president_choice: string
+          president_other?: string | null
+          state_choice: string
+          state_other?: string | null
+          user_id?: string
+          visited_at?: string
+          voter_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          federal_choice?: string
+          federal_other?: string | null
+          governor_choice?: string
+          governor_other?: string | null
+          id?: string
+          neighborhood?: string
+          notes?: string | null
+          president_choice?: string
+          president_other?: string | null
+          state_choice?: string
+          state_other?: string | null
+          user_id?: string
+          visited_at?: string
+          voter_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
