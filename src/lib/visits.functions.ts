@@ -35,9 +35,21 @@ export const createVisit = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => visitSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase
-      .from("visits")
-      .insert({ ...data, user_id: context.userId });
+    const { error } = await context.supabase.from("visits").insert({
+      user_id: context.userId,
+      visited_at: data.visited_at,
+      neighborhood: data.neighborhood,
+      voter_name: data.voter_name ?? null,
+      notes: data.notes ?? null,
+      president_choice: data.president_choice,
+      president_other: data.president_other ?? null,
+      governor_choice: data.governor_choice,
+      governor_other: data.governor_other ?? null,
+      federal_choice: data.federal_choice,
+      federal_other: data.federal_other ?? null,
+      state_choice: data.state_choice,
+      state_other: data.state_other ?? null,
+    });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
