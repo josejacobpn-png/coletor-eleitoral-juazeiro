@@ -32,7 +32,7 @@ export const RACES: Race[] = [
     key: "federal",
     label: "Deputado Federal",
     short: "Dep. Fed.",
-    options: ["F. SANTANA", "YURI", "ANDRÉ FIGUEIREDO", "FERNANDA PESSOA"],
+    options: ["FERNANDO SANTANA", "YURI", "ANDRÉ FIGUEIREDO", "FERNANDA PESSOA"],
     choiceField: "federal_choice",
     otherField: "federal_other",
   },

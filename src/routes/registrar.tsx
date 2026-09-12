@@ -38,7 +38,7 @@ const emptyChoices: Choices = { president: "", governor: "", federal: "", state:
 const emptyOthers: Others = { president: "", governor: "", federal: "", state: "" };
 
 function getOptionStyle(option: string, selected: boolean) {
-  if (option === "LULA 13" || option === "ELMANO 13" || option === "F. SANTANA" || option === "ZÉ AILTON") {
+  if (option === "LULA 13" || option === "ELMANO 13" || option === "FERNANDO SANTANA" || option === "ZÉ AILTON") {
     return selected
       ? "border-red-700 bg-red-600 text-white ring-4 ring-red-600/30 scale-[1.02]"
       : "border-red-700/50 bg-red-600/80 text-white hover:bg-red-600";
