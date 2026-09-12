@@ -64,16 +64,18 @@ function Index() {
       className="min-h-screen bg-primary text-primary-foreground bg-[url('/eleicoes-bg.png')] bg-cover bg-center bg-no-repeat"
     >
       <div className="mx-auto max-w-3xl px-5 py-14">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-70">
-          Campanha eleitoral
-        </p>
-        <h1 className="mt-2 font-display text-4xl font-bold leading-tight sm:text-5xl">
-          Registro de Visitas
-        </h1>
-        <p className="mt-4 max-w-md text-base opacity-90 drop-shadow-md">
-          A ferramenta da equipe de rua para anotar a intenção de voto de cada casa visitada e
-          enxergar o resultado em tempo real.
-        </p>
+        <div className="max-w-lg rounded-3xl bg-black/60 p-6 shadow-2xl backdrop-blur-md border border-white/10">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
+            Campanha eleitoral
+          </p>
+          <h1 className="mt-2 font-display text-4xl font-bold leading-tight text-white sm:text-5xl drop-shadow-lg">
+            Registro de Visitas
+          </h1>
+          <p className="mt-4 text-base text-white/90 drop-shadow-md">
+            A ferramenta da equipe de rua para anotar a intenção de voto de cada casa visitada e
+            enxergar o resultado em tempo real.
+          </p>
+        </div>
 
         {showActivistForm ? (
           <form onSubmit={handleActivistEnter} className="mt-8 max-w-sm space-y-3 rounded-2xl bg-card p-5 text-card-foreground shadow-xl">
