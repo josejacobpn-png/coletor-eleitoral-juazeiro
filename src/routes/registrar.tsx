@@ -94,7 +94,7 @@ function RegistrarPage() {
   const [others, setOthers] = useState<Others>(emptyOthers);
   const [visitedAt, setVisitedAt] = useState(() => toLocalInputValue(new Date()));
   const [voterName, setVoterName] = useState("");
-  const [voteCount, setVoteCount] = useState(1);
+  const [voteCount, setVoteCount] = useState<number | "">("");
   const [notes, setNotes] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [locality, setLocality] = useState("");
@@ -131,6 +131,7 @@ function RegistrarPage() {
       setOthers(emptyOthers);
       setVisitedAt(toLocalInputValue(new Date()));
       setVoterName("");
+      setVoteCount("");
       setAddressNumber("");
       setIsUndecided(false);
       setUndecidedDetails("");
@@ -144,6 +145,10 @@ function RegistrarPage() {
     e.preventDefault();
     if (!neighborhood.trim()) {
       toast.error("Informe o bairro ou localidade.");
+      return;
+    }
+    if (voteCount === "" || voteCount < 1) {
+      toast.error("Informe a quantidade de votos corretamente (mínimo 1).");
       return;
     }
     for (const race of RACES) {
@@ -165,7 +170,7 @@ function RegistrarPage() {
       address_number: addressNumber.trim() || null,
       is_undecided: isUndecided === true,
       undecided_details: isUndecided === true ? undecidedDetails.trim() || null : null,
-      vote_count: voteCount,
+      vote_count: voteCount as number,
       voter_name: voterName.trim() || null,
       notes: notes.trim() || null,
     };
@@ -270,7 +275,10 @@ function RegistrarPage() {
               min={1}
               className="h-12"
               value={voteCount}
-              onChange={(e) => setVoteCount(parseInt(e.target.value) || 1)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setVoteCount(val === "" ? "" : Number(val));
+              }}
             />
           </div>
 
