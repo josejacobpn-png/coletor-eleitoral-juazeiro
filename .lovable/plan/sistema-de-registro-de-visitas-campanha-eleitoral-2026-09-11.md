@@ -5,7 +5,9 @@ App mobile-first para registrar visitas porta a porta com intenção de voto, ma
 ## Telas
 
 ### 1. Registrar visita (página inicial, `/`)
+
 Formulário otimizado para celular, campos grandes, poucos toques:
+
 - **Presidente**: botões 13 / 22 / Outro (Outro abre campo de texto para nome ou número)
 - **Governador**: 13 / 45 / Outro (+ campo de texto)
 - **Deputado Federal**: F. Santana / Yuri do Paredão / André Figueiredo / Fernanda Pessoa / Outro (+ campo)
@@ -17,6 +19,7 @@ Formulário otimizado para celular, campos grandes, poucos toques:
 - Botão fixo no rodapé "Salvar visita", confirmação rápida e formulário limpo para o próximo registro
 
 ### 2. Painel (`/painel`)
+
 - Cartões com totais: visitas registradas, visitas hoje, bairros alcançados
 - Gráfico de pizza para Presidente e para Governador
 - Gráfico de barras para Deputado Federal e Deputado Estadual
@@ -24,6 +27,7 @@ Formulário otimizado para celular, campos grandes, poucos toques:
 - Cada gráfico mostra número e percentual
 
 ### 3. Histórico (`/historico`)
+
 - Tabela com data/hora, bairro, eleitor e as quatro escolhas
 - Filtros: período (data inicial e final), bairro e candidato
 - Em telas pequenas vira lista de cartões

@@ -16,7 +16,7 @@ export const RACES: Race[] = [
     key: "president",
     label: "Presidente",
     short: "Pres.",
-    options: ["13", "22"],
+    options: ["LULA 13", "FLAVIO 22"],
     choiceField: "president_choice",
     otherField: "president_other",
   },
@@ -24,7 +24,7 @@ export const RACES: Race[] = [
     key: "governor",
     label: "Governador",
     short: "Gov.",
-    options: ["13", "45"],
+    options: ["ELMANO 13", "CIRO 45"],
     choiceField: "governor_choice",
     otherField: "governor_other",
   },
@@ -32,7 +32,7 @@ export const RACES: Race[] = [
     key: "federal",
     label: "Deputado Federal",
     short: "Dep. Fed.",
-    options: ["F. Santana", "Yuri do Paredão", "André Figueiredo", "Fernanda Pessoa"],
+    options: ["F. SANTANA", "YURI", "ANDRÉ FIGUEIREDO", "FERNANDA PESSOA"],
     choiceField: "federal_choice",
     otherField: "federal_other",
   },
@@ -40,7 +40,7 @@ export const RACES: Race[] = [
     key: "state",
     label: "Deputado Estadual",
     short: "Dep. Est.",
-    options: ["Zé Ailton", "Giovane Sampaio", "Felipe Vasques"],
+    options: ["ZÉ AILTON", "GIOVANNI", "FELIPE VASQUES"],
     choiceField: "state_choice",
     otherField: "state_other",
   },
@@ -49,7 +49,11 @@ export const RACES: Race[] = [
 export interface VisitRow {
   id: string;
   visited_at: string;
+  activist_name: string | null;
   neighborhood: string;
+  locality: string | null;
+  address_number: string | null;
+  vote_count: number;
   voter_name: string | null;
   notes: string | null;
   president_choice: string;

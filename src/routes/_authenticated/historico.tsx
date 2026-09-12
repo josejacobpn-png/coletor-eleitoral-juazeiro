@@ -79,11 +79,23 @@ function HistoricoPage() {
       <section className="grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="from">De</Label>
-          <Input id="from" type="date" className="h-11" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <Input
+            id="from"
+            type="date"
+            className="h-11"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="to">Até</Label>
-          <Input id="to" type="date" className="h-11" value={to} onChange={(e) => setTo(e.target.value)} />
+          <Input
+            id="to"
+            type="date"
+            className="h-11"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="bairro">Bairro</Label>
@@ -129,11 +141,15 @@ function HistoricoPage() {
           <article key={v.id} className="rounded-2xl border border-border bg-card p-4">
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
               <div className="min-w-0">
-                <p className="truncate font-semibold text-foreground">{v.neighborhood}</p>
+                <p className="truncate font-semibold text-foreground">
+                  {v.neighborhood} {v.locality && <span className="font-normal text-muted-foreground">- {v.locality}</span>} {v.address_number && <span className="font-normal text-muted-foreground">, nº {v.address_number}</span>}
+                </p>
                 <p className="text-xs text-muted-foreground">{formatDateTime(v.visited_at)}</p>
                 {v.voter_name && (
-                  <p className="mt-1 truncate text-sm text-foreground">{v.voter_name}</p>
+                  <p className="mt-1 truncate text-sm text-foreground">Eleitor: {v.voter_name}</p>
                 )}
+                <p className="mt-1 text-xs text-muted-foreground">{v.vote_count} voto{v.vote_count !== 1 ? 's' : ''}</p>
+                <p className="mt-1 text-xs font-medium text-primary">Por: {v.activist_name || "Desconhecido"}</p>
               </div>
               <button
                 onClick={() => mutation.mutate(v.id)}
@@ -161,8 +177,10 @@ function HistoricoPage() {
           <thead className="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               <th className="p-3">Data</th>
-              <th className="p-3">Bairro</th>
+              <th className="p-3">Bairro / Localidade</th>
               <th className="p-3">Eleitor</th>
+              <th className="p-3 text-center">Votos</th>
+              <th className="p-3">Pesquisador</th>
               {RACES.map((race) => (
                 <th key={race.key} className="p-3">
                   {race.short}
@@ -175,8 +193,14 @@ function HistoricoPage() {
             {filtered.map((v) => (
               <tr key={v.id} className="border-b border-border last:border-0">
                 <td className="whitespace-nowrap p-3">{formatDateTime(v.visited_at)}</td>
-                <td className="p-3">{v.neighborhood}</td>
+                <td className="p-3">
+                  {v.neighborhood}
+                  {v.locality && <span className="ml-1 text-muted-foreground">/ {v.locality}</span>}
+                  {v.address_number && <span className="ml-1 text-muted-foreground">, nº {v.address_number}</span>}
+                </td>
                 <td className="p-3">{v.voter_name ?? "—"}</td>
+                <td className="p-3 text-center">{v.vote_count}</td>
+                <td className="p-3 font-medium text-primary">{v.activist_name ?? "—"}</td>
                 {RACES.map((race) => (
                   <td key={race.key} className="p-3">
                     {answerFor(v, race)}

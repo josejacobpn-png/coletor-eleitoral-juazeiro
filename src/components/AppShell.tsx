@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { ClipboardPlus, BarChart3, ListChecks, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
@@ -13,6 +14,15 @@ const NAV = [
 export function AppShell({ title, children }: { title: string; children: ReactNode }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [hasSession, setHasSession] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setHasSession(!!data.session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setHasSession(!!session);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -22,41 +32,45 @@ export function AppShell({ title, children }: { title: string; children: ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <header className="sticky top-0 z-20 border-b border-border bg-primary text-primary-foreground">
-        <div className="mx-auto grid max-w-3xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
-          <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] opacity-70">
-              Campanha
-            </p>
-            <h1 className="truncate font-display text-xl font-bold">{title}</h1>
+    <div className={hasSession ? "min-h-screen bg-background pb-24" : "min-h-screen bg-background"}>
+      {hasSession && (
+        <header className="sticky top-0 z-20 border-b border-border bg-primary text-primary-foreground">
+          <div className="mx-auto grid max-w-3xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] opacity-70">
+                Campanha
+              </p>
+              <h1 className="truncate font-display text-xl font-bold">{title}</h1>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 py-2 text-xs font-semibold transition-colors hover:bg-primary-foreground/20"
+            >
+              <LogOut className="h-4 w-4" /> Sair
+            </button>
           </div>
-          <button
-            onClick={handleSignOut}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 py-2 text-xs font-semibold transition-colors hover:bg-primary-foreground/20"
-          >
-            <LogOut className="h-4 w-4" /> Sair
-          </button>
-        </div>
-      </header>
+        </header>
+      )}
 
       <main className="mx-auto w-full max-w-3xl px-4 py-5">{children}</main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 backdrop-blur">
-        <div className="mx-auto grid max-w-3xl grid-cols-3">
-          {NAV.map(({ to, label, icon: Icon }) => (
-            <Link
-              key={to}
-              to={to}
-              className="flex flex-col items-center gap-1 py-3 text-xs font-medium text-muted-foreground transition-colors"
-              activeProps={{ className: "text-primary" }}
-            >
-              <Icon className="h-5 w-5" />
-              {label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      {hasSession && (
+        <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-card/95 backdrop-blur">
+          <div className="mx-auto grid max-w-3xl grid-cols-3">
+            {NAV.map(({ to, label, icon: Icon }) => (
+              <Link
+                key={to}
+                to={to}
+                className="flex flex-col items-center gap-1 py-3 text-xs font-medium text-muted-foreground transition-colors"
+                activeProps={{ className: "text-primary" }}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </div>
   );
 }

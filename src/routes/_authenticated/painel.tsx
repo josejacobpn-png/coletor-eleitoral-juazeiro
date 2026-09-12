@@ -83,8 +83,8 @@ function PainelPage() {
 
       {visits.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          Nenhuma visita registrada ainda. Assim que você salvar a primeira, os gráficos
-          aparecem aqui.
+          Nenhuma visita registrada ainda. Assim que você salvar a primeira, os gráficos aparecem
+          aqui.
         </p>
       ) : (
         <div className="mt-5 space-y-5">
@@ -139,9 +139,7 @@ function PainelPage() {
                           style={{ backgroundColor: COLORS[i % COLORS.length] }}
                         />
                         <span className="min-w-0 flex-1 truncate text-foreground">{row.name}</span>
-                        <span className="shrink-0 font-semibold text-foreground">
-                          {row.value}
-                        </span>
+                        <span className="shrink-0 font-semibold text-foreground">{row.value}</span>
                         <span className="w-14 shrink-0 text-right text-muted-foreground">
                           {((row.value / total) * 100).toFixed(1)}%
                         </span>
@@ -154,13 +152,18 @@ function PainelPage() {
           })}
 
           <section className="rounded-2xl border border-border bg-card p-4">
-            <h2 className="font-display text-base font-bold text-foreground">
-              Visitas por bairro
-            </h2>
+            <h2 className="font-display text-base font-bold text-foreground">Visitas por bairro</h2>
             <div className="mt-3 h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={byNeighborhood} margin={{ left: -20 }}>
-                  <XAxis dataKey="name" tick={{ fontSize: 11 }} interval={0} angle={-25} dy={10} height={56} />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: 11 }}
+                    interval={0}
+                    angle={-25}
+                    dy={10}
+                    height={56}
+                  />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
                   <Tooltip />
                   <Bar dataKey="value" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />

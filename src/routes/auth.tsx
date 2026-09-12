@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,7 +35,7 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/registrar", replace: true });
+      if (data.session) navigate({ to: "/painel", replace: true });
     });
   }, [navigate]);
 
@@ -46,7 +46,7 @@ function AuthPage() {
       if (mode === "in") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate({ to: "/registrar", replace: true });
+        navigate({ to: "/painel", replace: true });
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -55,7 +55,7 @@ function AuthPage() {
         });
         if (error) throw error;
         if (data.session) {
-          navigate({ to: "/registrar", replace: true });
+          navigate({ to: "/painel", replace: true });
         } else {
           toast.success("Conta criada! Confirme pelo link enviado ao seu e-mail.");
         }
@@ -77,9 +77,7 @@ function AuthPage() {
           Registro de Visitas
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {mode === "in"
-            ? "Entre para registrar suas visitas."
-            : "Crie sua conta de militante."}
+          {mode === "in" ? "Entre para registrar suas visitas." : "Crie sua conta de militante."}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -121,6 +119,15 @@ function AuthPage() {
         >
           {mode === "in" ? "Não tem conta? Criar agora" : "Já tenho conta. Entrar"}
         </button>
+
+        <div className="mt-6 text-center">
+          <Link
+            to="/"
+            className="text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Voltar para a tela inicial
+          </Link>
+        </div>
       </div>
     </div>
   );

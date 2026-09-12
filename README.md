@@ -1,6 +1,7 @@
 # Eleição Fácil
 
 Crie um sistema de registro de visitas para campanha eleitoral. Deve ter um formulário simples e otimizado para celular para registrar cada visita com os seguintes campos de intenção de voto:
+
 - Presidente: 13, 22 ou Outro (com campo para digitar o nome/número se escolher Outro)
 - Governador: 13, 45 ou Outro (com campo para digitar)
 - Deputado Federal: F. Santana, Yuri do Paredão, André Figueiredo, Fernanda Pessoa ou Outro (com campo para digitar)
