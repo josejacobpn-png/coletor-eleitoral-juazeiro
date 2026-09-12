@@ -134,7 +134,7 @@ function Index() {
             </button>
             <Link
               to="/auth"
-              className="inline-flex h-13 items-center justify-center rounded-full bg-primary-foreground/20 px-8 py-3.5 text-base font-semibold backdrop-blur-md transition-transform hover:bg-primary-foreground/30 hover:scale-[1.02]"
+              className="inline-flex h-13 items-center justify-center rounded-full bg-black/50 px-8 py-3.5 text-base font-semibold backdrop-blur-md transition-transform hover:bg-black/70 hover:scale-[1.02]"
             >
               Acesso Coordenador
             </Link>
@@ -143,10 +143,10 @@ function Index() {
 
         <div className="mt-14 grid gap-4 sm:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="rounded-2xl bg-primary-foreground/10 p-5 backdrop-blur-sm">
+            <div key={title} className="rounded-2xl bg-black/50 p-5 backdrop-blur-md border border-white/10">
               <Icon className="h-6 w-6 text-accent" />
               <h2 className="mt-3 font-display text-lg font-semibold">{title}</h2>
-              <p className="mt-1 text-sm opacity-75">{text}</p>
+              <p className="mt-1 text-sm opacity-90">{text}</p>
             </div>
           ))}
         </div>
