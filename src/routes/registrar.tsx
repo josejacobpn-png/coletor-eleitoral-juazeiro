@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { createVisit, listVisits } from "@/lib/visits.functions";
 import { OTHER, RACES, toLocalInputValue, type RaceKey, type VisitRow } from "@/lib/candidates";
 import { cn } from "@/lib/utils";
@@ -67,6 +68,11 @@ function getOptionStyle(option: string, selected: boolean) {
       ? "border-orange-700 bg-orange-500 text-white ring-4 ring-orange-500/30 scale-[1.02]"
       : "border-orange-700/50 bg-orange-500/80 text-white hover:bg-orange-500";
   }
+  if (option === "ELIANA ESTRELA") {
+    return selected
+      ? "border-red-600 bg-white text-red-600 ring-4 ring-white/30 scale-[1.02]"
+      : "border-red-600/50 bg-white/90 text-red-600 hover:bg-white";
+  }
   if (option === "outro") {
     return selected
       ? "border-slate-600 bg-slate-500 text-white ring-4 ring-slate-500/30 scale-[1.02]"
@@ -93,6 +99,8 @@ function RegistrarPage() {
   const [neighborhood, setNeighborhood] = useState("");
   const [locality, setLocality] = useState("");
   const [addressNumber, setAddressNumber] = useState("");
+  const [isUndecided, setIsUndecided] = useState<boolean | "indeterminate">(false);
+  const [undecidedDetails, setUndecidedDetails] = useState("");
 
   useEffect(() => {
     const name = localStorage.getItem("activist_name");
@@ -123,7 +131,9 @@ function RegistrarPage() {
       setOthers(emptyOthers);
       setVisitedAt(toLocalInputValue(new Date()));
       setVoterName("");
-      setNotes("");
+      setAddressNumber("");
+      setIsUndecided(false);
+      setUndecidedDetails("");
       void queryClient.invalidateQueries({ queryKey: ["visits"] });
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -153,6 +163,8 @@ function RegistrarPage() {
       neighborhood: neighborhood.trim(),
       locality: locality.trim() || null,
       address_number: addressNumber.trim() || null,
+      is_undecided: isUndecided === true,
+      undecided_details: isUndecided === true ? undecidedDetails.trim() || null : null,
       vote_count: voteCount,
       voter_name: voterName.trim() || null,
       notes: notes.trim() || null,
@@ -258,9 +270,34 @@ function RegistrarPage() {
               min={1}
               className="h-12"
               value={voteCount}
-              onChange={(e) => setVoteCount(Number(e.target.value))}
-              required
+              onChange={(e) => setVoteCount(parseInt(e.target.value) || 1)}
             />
+          </div>
+
+          <div className="flex flex-col gap-3 pt-2">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_undecided"
+                checked={isUndecided}
+                onCheckedChange={setIsUndecided}
+              />
+              <Label htmlFor="is_undecided" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Família ou eleitor possui indecisos?
+              </Label>
+            </div>
+            {isUndecided === true && (
+              <div className="space-y-1.5 pl-6">
+                <Label htmlFor="undecided_details" className="text-xs text-muted-foreground">Detalhes da indecisão (quais candidatos, motivos, etc)</Label>
+                <Textarea
+                  id="undecided_details"
+                  className="min-h-[80px] resize-y"
+                  value={undecidedDetails}
+                  onChange={(e) => setUndecidedDetails(e.target.value)}
+                  placeholder="Ex.: Em dúvida entre candidato A e B para governador..."
+                  maxLength={1000}
+                />
+              </div>
+            )}
           </div>
 
         </section>

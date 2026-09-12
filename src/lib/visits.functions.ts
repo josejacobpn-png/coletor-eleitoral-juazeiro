@@ -8,6 +8,8 @@ const visitSchema = z.object({
   neighborhood: z.string().trim().min(1, "Informe o bairro").max(120),
   locality: z.string().trim().max(120).optional().nullable(),
   address_number: z.string().trim().max(50).optional().nullable(),
+  is_undecided: z.boolean().optional().nullable(),
+  undecided_details: z.string().trim().max(1000).optional().nullable(),
   vote_count: z.coerce.number().int().min(1, "A quantidade de votos deve ser no mínimo 1"),
   voter_name: z.string().trim().max(120).optional().nullable(),
   notes: z.string().trim().max(1000).optional().nullable(),
@@ -27,7 +29,7 @@ export const listVisits = createServerFn({ method: "GET" })
     const { data, error } = await context.supabase
       .from("visits")
       .select(
-        "id, visited_at, neighborhood, locality, address_number, vote_count, activist_name, voter_name, notes, president_choice, president_other, governor_choice, governor_other, federal_choice, federal_other, state_choice, state_other",
+        "id, visited_at, neighborhood, locality, address_number, is_undecided, undecided_details, vote_count, activist_name, voter_name, notes, president_choice, president_other, governor_choice, governor_other, federal_choice, federal_other, state_choice, state_other",
       )
       .order("visited_at", { ascending: false })
       .limit(2000);
@@ -46,6 +48,8 @@ export const createVisit = createServerFn({ method: "POST" })
       neighborhood: data.neighborhood,
       locality: data.locality ?? null,
       address_number: data.address_number ?? null,
+      is_undecided: data.is_undecided ?? false,
+      undecided_details: data.undecided_details ?? null,
       vote_count: data.vote_count,
       voter_name: data.voter_name ?? null,
       notes: data.notes ?? null,

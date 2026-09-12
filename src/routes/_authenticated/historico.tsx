@@ -167,6 +167,11 @@ function HistoricoPage() {
                 </div>
               ))}
             </dl>
+            {v.is_undecided && (
+              <div className="mt-3 rounded-md bg-amber-500/10 p-2.5 text-sm text-amber-600 border border-amber-500/20">
+                <strong>⚠️ Indecisos:</strong> {v.undecided_details || "Detalhes não informados"}
+              </div>
+            )}
             {v.notes && <p className="mt-3 text-sm text-muted-foreground">{v.notes}</p>}
           </article>
         ))}

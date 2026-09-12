@@ -40,7 +40,7 @@ export const RACES: Race[] = [
     key: "state",
     label: "Deputado Estadual",
     short: "Dep. Est.",
-    options: ["ZÉ AILTON", "GIOVANNI", "FELIPE VASQUES"],
+    options: ["ZÉ AILTON", "GIOVANNI", "FELIPE VASQUES", "ELIANA ESTRELA"],
     choiceField: "state_choice",
     otherField: "state_other",
   },
@@ -53,6 +53,8 @@ export interface VisitRow {
   neighborhood: string;
   locality: string | null;
   address_number: string | null;
+  is_undecided: boolean | null;
+  undecided_details: string | null;
   vote_count: number;
   voter_name: string | null;
   notes: string | null;

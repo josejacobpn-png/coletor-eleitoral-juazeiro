@@ -26,6 +26,8 @@ export type Database = {
           user_id: string | null;
           locality: string | null;
           address_number: string | null;
+          is_undecided: boolean | null;
+          undecided_details: string | null;
           vote_count: number;
           visited_at: string;
           voter_name: string | null;
@@ -47,6 +49,8 @@ export type Database = {
           user_id?: string | null;
           locality?: string | null;
           address_number?: string | null;
+          is_undecided?: boolean | null;
+          undecided_details?: string | null;
           vote_count?: number;
           visited_at?: string;
           voter_name?: string | null;
@@ -68,6 +72,8 @@ export type Database = {
           user_id?: string | null;
           locality?: string | null;
           address_number?: string | null;
+          is_undecided?: boolean | null;
+          undecided_details?: string | null;
           vote_count?: number;
           visited_at?: string;
           voter_name?: string | null;
