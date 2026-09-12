@@ -61,7 +61,7 @@ function Index() {
 
   return (
     <div
-      className="min-h-screen bg-primary text-primary-foreground"
+      className="min-h-screen bg-primary text-primary-foreground bg-[url('/eleicoes-bg.png')] bg-cover bg-center bg-no-repeat"
     >
       <div className="mx-auto max-w-3xl px-5 py-14">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-70">
