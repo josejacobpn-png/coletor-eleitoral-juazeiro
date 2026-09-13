@@ -367,6 +367,32 @@ function RegistrarPage() {
         >
           {mutation.isPending ? "Salvando..." : "Salvar visita"}
         </Button>
+
+        {visits && visits.length > 0 && (
+          <section className="mt-8 rounded-2xl border border-border bg-card p-4">
+            <h2 className="font-display text-sm font-bold text-foreground mb-3">Últimas visitas registradas</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="pb-2 font-medium text-muted-foreground">Local/Rua</th>
+                    <th className="pb-2 font-medium text-muted-foreground">Número</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {visits.slice(0, 3).map((v) => (
+                    <tr key={v.id}>
+                      <td className="py-2.5 pr-2 text-foreground">
+                        {v.neighborhood} {v.locality && <span className="text-muted-foreground">- {v.locality}</span>}
+                      </td>
+                      <td className="py-2.5 text-foreground">{v.address_number || "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
       </form>
     </AppShell>
   );
