@@ -2,11 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Trash2 } from "lucide-react";
+import { Trash2, Download } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { deleteVisit, listVisits } from "@/lib/visits.functions";
 import { RACES, answerFor, formatDateTime, type VisitRow } from "@/lib/candidates";
 
@@ -73,6 +74,55 @@ function HistoricoPage() {
     },
     onError: (err: Error) => toast.error(err.message || "Não foi possível excluir."),
   });
+
+  function handleExportCSV() {
+    const headers = [
+      "Data/Hora",
+      "Pesquisador",
+      "Bairro",
+      "Localidade",
+      "Número",
+      "Eleitor",
+      "Indeciso",
+      "Motivo Indeciso",
+      "Votos",
+      "Presidente",
+      "Governador",
+      "Deputado Federal",
+      "Deputado Estadual",
+      "Observações",
+    ].join(";");
+
+    const rows = filtered.map((v) => {
+      return [
+        formatDateTime(v.visited_at),
+        v.activist_name || "",
+        v.neighborhood || "",
+        v.locality || "",
+        v.address_number || "",
+        v.voter_name || "",
+        v.is_undecided ? "Sim" : "Não",
+        v.undecided_details || "",
+        v.vote_count || 1,
+        v.president_choice === "Outro" ? (v.president_other || "Outro") : v.president_choice,
+        v.governor_choice === "Outro" ? (v.governor_other || "Outro") : v.governor_choice,
+        v.federal_choice === "Outro" ? (v.federal_other || "Outro") : v.federal_choice,
+        v.state_choice === "Outro" ? (v.state_other || "Outro") : v.state_choice,
+        v.notes || "",
+      ]
+        .map((field) => `"${String(field).replace(/"/g, '""')}"`)
+        .join(";");
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers, ...rows].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `historico_visitas_${new Date().getTime()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
   return (
     <AppShell title="Histórico">
@@ -141,10 +191,16 @@ function HistoricoPage() {
         </div>
       </section>
 
-      <p className="mt-4 text-sm text-muted-foreground">
-        {filtered.length} visita{filtered.length === 1 ? "" : "s"} encontrada
-        {filtered.length === 1 ? "" : "s"}
-      </p>
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          {filtered.length} visita{filtered.length === 1 ? "" : "s"} encontrada
+          {filtered.length === 1 ? "" : "s"}
+        </p>
+        <Button onClick={handleExportCSV} variant="outline" className="shrink-0 gap-2">
+          <Download className="h-4 w-4" />
+          Exportar Excel (CSV)
+        </Button>
+      </div>
 
       <div className="mt-3 space-y-3 md:hidden">
         {filtered.map((v) => (
