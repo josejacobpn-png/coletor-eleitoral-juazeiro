@@ -129,7 +129,7 @@ function RegistrarPage() {
 
   const mutation = useMutation({
     mutationFn: (payload: Record<string, string | null>) => saveVisit({ data: payload as never }),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       toast.success("Visita registrada!");
       setChoices(emptyChoices);
       setOthers(emptyOthers);
@@ -143,9 +143,9 @@ function RegistrarPage() {
       setRecentVisits((prev) => [
         {
           id: Date.now(),
-          neighborhood: (payload.neighborhood as string) || "",
-          locality: (payload.locality as string) || "",
-          address_number: (payload.address_number as string) || "",
+          neighborhood: (variables.neighborhood as string) || "",
+          locality: (variables.locality as string) || "",
+          address_number: (variables.address_number as string) || "",
         },
         ...prev,
       ].slice(0, 3));
