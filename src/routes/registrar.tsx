@@ -83,6 +83,37 @@ function getOptionStyle(option: string, selected: boolean) {
     : "border-border bg-background text-foreground hover:border-primary/40";
 }
 
+const PREDEFINED_NEIGHBORHOODS = [
+  "Alto da Alegria",
+  "Bairro do Rosário",
+  "Barro Branco",
+  "Bela Vista",
+  "Bulandeira",
+  "Cabeceiras",
+  "Caldas",
+  "Casas Populares",
+  "Centro",
+  "Cirolândia",
+  "CNSF",
+  "Distrito do Caldas",
+  "Jardim dos Ipês",
+  "Malvinas",
+  "Mata dos Dudas",
+  "Mata dos Limas",
+  "MCMV",
+  "Novo Horizonte",
+  "Royal Vile",
+  "Santo André",
+  "Sítio Brejinho",
+  "Sítio Estrela",
+  "Sítio Lagoa",
+  "Sítio Santana I",
+  "Sítio Santana II",
+  "Venha-Ver",
+  "Vila da Cecasa",
+  "Vila Santo Antônio"
+];
+
 function RegistrarPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -119,7 +150,10 @@ function RegistrarPage() {
   });
 
   const neighborhoods = useMemo(
-    () => Array.from(new Set((visits ?? []).map((v) => v.neighborhood))).sort(),
+    () => {
+      const dbNeighborhoods = (visits ?? []).map((v) => v.neighborhood);
+      return Array.from(new Set([...PREDEFINED_NEIGHBORHOODS, ...dbNeighborhoods])).sort();
+    },
     [visits],
   );
 
