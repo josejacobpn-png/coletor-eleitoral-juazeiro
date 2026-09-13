@@ -165,7 +165,7 @@ function RegistrarPage() {
       }
     }
 
-    const payload: Record<string, string | null> = {
+    const payload: Record<string, any> = {
       visited_at: new Date(visitedAt).toISOString(),
       activist_name: activistName,
       neighborhood: neighborhood.trim(),

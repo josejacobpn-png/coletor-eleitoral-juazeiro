@@ -47,7 +47,7 @@ function tally(visits: VisitRow[], get: (v: VisitRow) => string) {
   const map = new Map<string, number>();
   for (const v of visits) {
     const key = get(v);
-    const count = v.vote_count || 1;
+    const count = Number(v.vote_count) || 1;
     map.set(key, (map.get(key) ?? 0) + count);
   }
   return Array.from(map, ([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
@@ -62,10 +62,10 @@ function PainelPage() {
   const visits = useMemo(() => data ?? [], [data]);
 
   const today = new Date().toDateString();
-  const totalVotes = visits.reduce((acc, v) => acc + (v.vote_count || 1), 0);
+  const totalVotes = visits.reduce((acc, v) => acc + (Number(v.vote_count) || 1), 0);
   const todayVotes = visits
     .filter((v) => new Date(v.visited_at).toDateString() === today)
-    .reduce((acc, v) => acc + (v.vote_count || 1), 0);
+    .reduce((acc, v) => acc + (Number(v.vote_count) || 1), 0);
   const neighborhoods = new Set(visits.map((v) => v.neighborhood)).size;
   const byNeighborhood = tally(visits, (v) => v.neighborhood).slice(0, 10);
 
