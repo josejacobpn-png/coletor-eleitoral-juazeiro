@@ -85,6 +85,37 @@ export function formatDateTime(iso: string): string {
   });
 }
 
+export const PREDEFINED_NEIGHBORHOODS = [
+  "Alto da Alegria",
+  "Bairro do Rosário",
+  "Barro Branco",
+  "Bela Vista",
+  "Bulandeira",
+  "Cabeceiras",
+  "Caldas",
+  "Casas Populares",
+  "Centro",
+  "Cirolândia",
+  "CNSF",
+  "Distrito do Caldas",
+  "Jardim dos Ipês",
+  "Malvinas",
+  "Mata dos Dudas",
+  "Mata dos Limas",
+  "MCMV",
+  "Novo Horizonte",
+  "Royal Vile",
+  "Santo André",
+  "Sítio Brejinho",
+  "Sítio Estrela",
+  "Sítio Lagoa",
+  "Sítio Santana I",
+  "Sítio Santana II",
+  "Venha-Ver",
+  "Vila da Cecasa",
+  "Vila Santo Antônio"
+];
+
 export function toLocalInputValue(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(

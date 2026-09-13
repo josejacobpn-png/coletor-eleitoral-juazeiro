@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { createVisit, listVisits } from "@/lib/visits.functions";
-import { OTHER, RACES, toLocalInputValue, type RaceKey, type VisitRow } from "@/lib/candidates";
+import { OTHER, RACES, PREDEFINED_NEIGHBORHOODS, toLocalInputValue, type RaceKey, type VisitRow } from "@/lib/candidates";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/registrar")({
@@ -82,37 +82,6 @@ function getOptionStyle(option: string, selected: boolean) {
     ? "border-primary bg-primary text-primary-foreground ring-4 ring-primary/30 scale-[1.02]"
     : "border-border bg-background text-foreground hover:border-primary/40";
 }
-
-const PREDEFINED_NEIGHBORHOODS = [
-  "Alto da Alegria",
-  "Bairro do Rosário",
-  "Barro Branco",
-  "Bela Vista",
-  "Bulandeira",
-  "Cabeceiras",
-  "Caldas",
-  "Casas Populares",
-  "Centro",
-  "Cirolândia",
-  "CNSF",
-  "Distrito do Caldas",
-  "Jardim dos Ipês",
-  "Malvinas",
-  "Mata dos Dudas",
-  "Mata dos Limas",
-  "MCMV",
-  "Novo Horizonte",
-  "Royal Vile",
-  "Santo André",
-  "Sítio Brejinho",
-  "Sítio Estrela",
-  "Sítio Lagoa",
-  "Sítio Santana I",
-  "Sítio Santana II",
-  "Venha-Ver",
-  "Vila da Cecasa",
-  "Vila Santo Antônio"
-];
 
 function RegistrarPage() {
   const navigate = useNavigate();

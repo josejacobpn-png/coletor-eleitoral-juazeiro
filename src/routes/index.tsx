@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ClipboardPlus, BarChart3, ListChecks } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { PREDEFINED_NEIGHBORHOODS } from "@/lib/candidates";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -97,11 +98,17 @@ function Index() {
               <input 
                 id="neighborhood"
                 type="text" 
+                list="home-neighborhood-options"
                 className="mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground"
                 value={activistNeighborhood}
                 onChange={(e) => setActivistNeighborhood(e.target.value)}
                 placeholder="Ex: Centro"
               />
+              <datalist id="home-neighborhood-options">
+                {PREDEFINED_NEIGHBORHOODS.map((n) => (
+                  <option key={n} value={n} />
+                ))}
+              </datalist>
             </div>
             <div>
               <label htmlFor="locality" className="text-sm font-medium">Localidade (opcional)</label>
