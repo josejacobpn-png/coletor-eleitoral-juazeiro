@@ -99,8 +99,9 @@ function RegistrarPage() {
   const [neighborhood, setNeighborhood] = useState("");
   const [locality, setLocality] = useState("");
   const [addressNumber, setAddressNumber] = useState("");
-  const [isUndecided, setIsUndecided] = useState<boolean | "indeterminate">(false);
+  const [isUndecided, setIsUndecided] = useState(false);
   const [undecidedDetails, setUndecidedDetails] = useState("");
+  const [recentVisits, setRecentVisits] = useState<{ neighborhood: string; locality: string; address_number: string; id: number }[]>([]);
 
   useEffect(() => {
     const name = localStorage.getItem("activist_name");
@@ -138,6 +139,17 @@ function RegistrarPage() {
       setAddressNumber("");
       setIsUndecided(false);
       setUndecidedDetails("");
+      
+      setRecentVisits((prev) => [
+        {
+          id: Date.now(),
+          neighborhood: (payload.neighborhood as string) || "",
+          locality: (payload.locality as string) || "",
+          address_number: (payload.address_number as string) || "",
+        },
+        ...prev,
+      ].slice(0, 3));
+
       void queryClient.invalidateQueries({ queryKey: ["visits"] });
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -368,7 +380,7 @@ function RegistrarPage() {
           {mutation.isPending ? "Salvando..." : "Salvar visita"}
         </Button>
 
-        {visits && visits.length > 0 && (
+        {recentVisits.length > 0 && (
           <section className="mt-8 rounded-2xl border border-border bg-card p-4">
             <h2 className="font-display text-sm font-bold text-foreground mb-3">Últimas visitas registradas</h2>
             <div className="overflow-x-auto">
@@ -380,7 +392,7 @@ function RegistrarPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {visits.slice(0, 3).map((v) => (
+                  {recentVisits.map((v) => (
                     <tr key={v.id}>
                       <td className="py-2.5 pr-2 text-foreground">
                         {v.neighborhood} {v.locality && <span className="text-muted-foreground">- {v.locality}</span>}
