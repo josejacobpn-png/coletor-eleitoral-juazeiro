@@ -47,28 +47,43 @@ function tally(visits: VisitRow[], get: (v: VisitRow) => string) {
   const map = new Map<string, number>();
   for (const v of visits) {
     const key = get(v);
-    map.set(key, (map.get(key) ?? 0) + 1);
+    const count = v.vote_count || 1;
+    map.set(key, (map.get(key) ?? 0) + count);
   }
   return Array.from(map, ([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
 }
 
 function PainelPage() {
   const fetchVisits = useServerFn(listVisits);
-  const { data, isPending } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["visits"],
     queryFn: () => fetchVisits() as Promise<VisitRow[]>,
   });
   const visits = useMemo(() => data ?? [], [data]);
 
   const today = new Date().toDateString();
-  const todayCount = visits.filter((v) => new Date(v.visited_at).toDateString() === today).length;
+  const totalVotes = visits.reduce((acc, v) => acc + (v.vote_count || 1), 0);
+  const todayVotes = visits
+    .filter((v) => new Date(v.visited_at).toDateString() === today)
+    .reduce((acc, v) => acc + (v.vote_count || 1), 0);
   const neighborhoods = new Set(visits.map((v) => v.neighborhood)).size;
   const byNeighborhood = tally(visits, (v) => v.neighborhood).slice(0, 10);
 
   if (isPending) {
     return (
       <AppShell title="Painel">
-        <p className="text-sm text-muted-foreground">Carregando dados...</p>
+        <p className="text-sm text-muted-foreground p-5">Carregando dados...</p>
+      </AppShell>
+    );
+  }
+  if (error) {
+    return (
+      <AppShell title="Painel">
+        <div className="p-5">
+          <p className="text-red-500 font-bold mb-2">Erro ao carregar dados:</p>
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+          <p className="text-sm mt-4">Verifique se você rodou o comando SQL no Supabase para as novas colunas.</p>
+        </div>
       </AppShell>
     );
   }
@@ -76,8 +91,8 @@ function PainelPage() {
   return (
     <AppShell title="Painel">
       <div className="grid grid-cols-3 gap-3">
-        <Stat label="Visitas" value={visits.length} />
-        <Stat label="Hoje" value={todayCount} />
+        <Stat label="Intenções" value={totalVotes} />
+        <Stat label="Hoje" value={todayVotes} />
         <Stat label="Bairros" value={neighborhoods} />
       </div>
 
@@ -90,7 +105,7 @@ function PainelPage() {
         <div className="mt-5 space-y-5">
           {RACES.map((race, raceIndex) => {
             const rows = tally(visits, (v) => answerFor(v, race));
-            const total = visits.length;
+            const total = totalVotes;
             return (
               <section key={race.key} className="rounded-2xl border border-border bg-card p-4">
                 <h2 className="font-display text-base font-bold text-foreground">{race.label}</h2>
