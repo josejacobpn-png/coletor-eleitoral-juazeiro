@@ -38,7 +38,7 @@ function HistoricoPage() {
   const [neighborhood, setNeighborhood] = useState("");
   const [candidate, setCandidate] = useState("");
 
-  const { data } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["visits"],
     queryFn: () => fetchVisits() as Promise<VisitRow[]>,
   });
@@ -76,7 +76,17 @@ function HistoricoPage() {
 
   return (
     <AppShell title="Histórico">
-      <section className="grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
+      {isPending && <p className="text-sm text-muted-foreground p-4">Carregando dados...</p>}
+      {error && (
+        <div className="p-5">
+          <p className="text-red-500 font-bold mb-2">Erro ao carregar histórico:</p>
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+          <p className="text-sm mt-4 font-medium">Verifique se as colunas novas foram criadas no banco de dados.</p>
+        </div>
+      )}
+      {!isPending && !error && (
+        <>
+          <section className="grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="from">De</Label>
           <Input
@@ -225,6 +235,8 @@ function HistoricoPage() {
           </tbody>
         </table>
       </div>
+        </>
+      )}
     </AppShell>
   );
 }
