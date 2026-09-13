@@ -145,7 +145,7 @@ function Index() {
               to="/auth"
               className="inline-flex h-13 items-center justify-center rounded-full bg-black/50 px-8 py-3.5 text-base font-semibold backdrop-blur-md transition-transform hover:bg-black/70 hover:scale-[1.02]"
             >
-              Acesso Coordenador
+              Administrador do sistema
             </Link>
           </div>
         )}
