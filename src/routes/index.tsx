@@ -149,7 +149,7 @@ function Index() {
                 Administrador do sistema
               </Link>
             </div>
-            <p className="text-sm font-medium text-white/70">
+            <p className="text-sm font-medium text-black">
               Desenvolvido por: G2 Sistemas (José Jacob)
             </p>
           </div>
