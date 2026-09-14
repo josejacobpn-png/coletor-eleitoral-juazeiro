@@ -28,7 +28,6 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"in" | "up">("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,23 +42,9 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "in") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate({ to: "/painel", replace: true });
-      } else {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        if (data.session) {
-          navigate({ to: "/painel", replace: true });
-        } else {
-          toast.success("Conta criada! Confirme pelo link enviado ao seu e-mail.");
-        }
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      navigate({ to: "/painel", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Não foi possível continuar.");
     } finally {
@@ -77,7 +62,7 @@ function AuthPage() {
           Registro de Visitas
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {mode === "in" ? "Entre para registrar suas visitas." : "Crie sua conta de militante."}
+          Entre com as credenciais de coordenador.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -99,7 +84,7 @@ function AuthPage() {
             <Input
               id="password"
               type="password"
-              autoComplete={mode === "in" ? "current-password" : "new-password"}
+              autoComplete="current-password"
               required
               minLength={6}
               value={password}
@@ -108,17 +93,9 @@ function AuthPage() {
             />
           </div>
           <Button type="submit" disabled={loading} className="h-12 w-full text-base">
-            {loading ? "Aguarde..." : mode === "in" ? "Entrar" : "Criar conta"}
+            {loading ? "Aguarde..." : "Entrar"}
           </Button>
         </form>
-
-        <button
-          type="button"
-          onClick={() => setMode(mode === "in" ? "up" : "in")}
-          className="mt-4 w-full text-sm font-medium text-primary underline-offset-4 hover:underline"
-        >
-          {mode === "in" ? "Não tem conta? Criar agora" : "Já tenho conta. Entrar"}
-        </button>
 
         <div className="mt-6 text-center">
           <Link
