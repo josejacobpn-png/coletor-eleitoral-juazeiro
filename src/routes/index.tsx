@@ -127,26 +127,31 @@ function Index() {
             </div>
           </form>
         ) : (
-          <div className="mt-8 flex flex-wrap gap-4">
-            <button
-              onClick={() => {
-                const saved = localStorage.getItem("activist_name");
-                if (saved) {
-                  navigate({ to: "/registrar" });
-                } else {
-                  setShowActivistForm(true);
-                }
-              }}
-              className="inline-flex h-13 items-center justify-center rounded-full bg-accent px-8 py-3.5 text-base font-semibold text-accent-foreground shadow-lg transition-transform hover:scale-[1.02]"
-            >
-              Sou Pesquisador
-            </button>
-            <Link
-              to="/auth"
-              className="inline-flex h-13 items-center justify-center rounded-full bg-black/50 px-8 py-3.5 text-base font-semibold backdrop-blur-md transition-transform hover:bg-black/70 hover:scale-[1.02]"
-            >
-              Administrador do sistema
-            </Link>
+          <div className="mt-8 flex flex-col items-start gap-4">
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => {
+                  const saved = localStorage.getItem("activist_name");
+                  if (saved) {
+                    navigate({ to: "/registrar" });
+                  } else {
+                    setShowActivistForm(true);
+                  }
+                }}
+                className="inline-flex h-13 items-center justify-center rounded-full bg-accent px-8 py-3.5 text-base font-semibold text-accent-foreground shadow-lg transition-transform hover:scale-[1.02]"
+              >
+                Sou Pesquisador
+              </button>
+              <Link
+                to="/auth"
+                className="inline-flex h-13 items-center justify-center rounded-full bg-black/50 px-8 py-3.5 text-base font-semibold backdrop-blur-md transition-transform hover:bg-black/70 hover:scale-[1.02]"
+              >
+                Administrador do sistema
+              </Link>
+            </div>
+            <p className="text-sm font-medium text-white/70">
+              Desenvolvido por: G2 Sistemas (José Jacob)
+            </p>
           </div>
         )}
 
