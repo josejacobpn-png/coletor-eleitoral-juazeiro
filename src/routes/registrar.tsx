@@ -139,8 +139,6 @@ function RegistrarPage() {
       setAddressNumber("");
       setIsUndecided(false);
       setUndecidedDetails("");
-      setNeighborhood("");
-      setLocality("");
       setNotes("");
       
       setRecentVisits((prev) => [
