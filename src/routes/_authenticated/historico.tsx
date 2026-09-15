@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Trash2, Download } from "lucide-react";
+import { Trash2, Download, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,7 @@ function HistoricoPage() {
   const [to, setTo] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [candidate, setCandidate] = useState("");
+  const [activist, setActivist] = useState("");
 
   const { data, isPending, error } = useQuery({
     queryKey: ["visits"],
@@ -54,6 +55,10 @@ function HistoricoPage() {
     for (const v of visits) for (const race of RACES) set.add(answerFor(v, race));
     return Array.from(set).sort();
   }, [visits]);
+  const activists = useMemo(
+    () => Array.from(new Set(visits.map((v) => v.activist_name).filter(Boolean))).sort(),
+    [visits]
+  );
 
   const filtered = useMemo(() => {
     return visits.filter((v) => {
@@ -62,9 +67,10 @@ function HistoricoPage() {
       if (to && date > new Date(`${to}T23:59:59`)) return false;
       if (neighborhood && v.neighborhood !== neighborhood) return false;
       if (candidate && !RACES.some((race) => answerFor(v, race) === candidate)) return false;
+      if (activist && v.activist_name !== activist) return false;
       return true;
     });
-  }, [visits, from, to, neighborhood, candidate]);
+  }, [visits, from, to, neighborhood, candidate, activist]);
 
   const mutation = useMutation({
     mutationFn: (id: string) => removeVisit({ data: { id } }),
@@ -189,6 +195,22 @@ function HistoricoPage() {
             ))}
           </select>
         </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="pesquisador">Pesquisador</Label>
+          <select
+            id="pesquisador"
+            value={activist}
+            onChange={(e) => setActivist(e.target.value)}
+            className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground"
+          >
+            <option value="">Todos</option>
+            {activists.map((a) => (
+              <option key={a as string} value={a as string}>
+                {a}
+              </option>
+            ))}
+          </select>
+        </div>
       </section>
 
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -217,13 +239,23 @@ function HistoricoPage() {
                 <p className="mt-1 text-xs text-muted-foreground">{v.vote_count} voto{v.vote_count !== 1 ? 's' : ''}</p>
                 <p className="mt-1 text-xs font-medium text-primary">Por: {v.activist_name || "Desconhecido"}</p>
               </div>
-              <button
-                onClick={() => mutation.mutate(v.id)}
-                aria-label="Excluir visita"
-                className="shrink-0 rounded-full p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+              <div className="flex flex-col items-center gap-2">
+                <Link
+                  to="/editar/$id"
+                  params={{ id: v.id }}
+                  aria-label="Editar visita"
+                  className="shrink-0 rounded-full p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Link>
+                <button
+                  onClick={() => mutation.mutate(v.id)}
+                  aria-label="Excluir visita"
+                  className="shrink-0 rounded-full p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
             </div>
             <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
               {RACES.map((race) => (
@@ -278,13 +310,23 @@ function HistoricoPage() {
                   </td>
                 ))}
                 <td className="p-3 text-right">
-                  <button
-                    onClick={() => mutation.mutate(v.id)}
-                    aria-label="Excluir visita"
-                    className="rounded-full p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  <div className="flex justify-end gap-2">
+                    <Link
+                      to="/editar/$id"
+                      params={{ id: v.id }}
+                      aria-label="Editar visita"
+                      className="rounded-full p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Link>
+                    <button
+                      onClick={() => mutation.mutate(v.id)}
+                      aria-label="Excluir visita"
+                      className="rounded-full p-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

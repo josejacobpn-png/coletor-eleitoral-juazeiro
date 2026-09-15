@@ -74,3 +74,36 @@ export const deleteVisit = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const updateVisit = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) => visitSchema.extend({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { id, ...updateData } = data;
+    const { error } = await context.supabase
+      .from("visits")
+      .update({
+        activist_name: updateData.activist_name,
+        visited_at: updateData.visited_at,
+        neighborhood: updateData.neighborhood,
+        locality: updateData.locality ?? null,
+        address_number: updateData.address_number ?? null,
+        is_undecided: updateData.is_undecided ?? false,
+        undecided_details: updateData.undecided_details ?? null,
+        vote_count: updateData.vote_count,
+        voter_name: updateData.voter_name ?? null,
+        notes: updateData.notes ?? null,
+        president_choice: updateData.president_choice,
+        president_other: updateData.president_other ?? null,
+        governor_choice: updateData.governor_choice,
+        governor_other: updateData.governor_other ?? null,
+        federal_choice: updateData.federal_choice,
+        federal_other: updateData.federal_other ?? null,
+        state_choice: updateData.state_choice,
+        state_other: updateData.state_other ?? null,
+      })
+      .eq("id", id);
+      
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
