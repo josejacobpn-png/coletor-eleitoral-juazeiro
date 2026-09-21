@@ -7,13 +7,13 @@ import { PREDEFINED_NEIGHBORHOODS } from "@/lib/candidates";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Registro de Visitas — Campanha Eleitoral" },
+      { title: "Registro de Visitas — Campanha Eleitoral Juazeiro" },
       {
         name: "description",
         content:
           "Registre visitas porta a porta, acompanhe as intenções de voto por bairro e veja o histórico completo da campanha.",
       },
-      { property: "og:title", content: "Registro de Visitas — Campanha Eleitoral" },
+      { property: "og:title", content: "Registro de Visitas — Campanha Eleitoral Juazeiro" },
       {
         property: "og:description",
         content:
@@ -67,7 +67,7 @@ function Index() {
       <div className="mx-auto max-w-3xl px-5 py-14">
         <div className="max-w-lg rounded-3xl bg-black/60 p-6 shadow-2xl backdrop-blur-md border border-white/10">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
-            Campanha eleitoral
+            Campanha eleitoral Juazeiro
           </p>
           <h1 className="mt-2 font-display text-4xl font-bold leading-tight text-white sm:text-5xl drop-shadow-lg">
             Registro de Visitas

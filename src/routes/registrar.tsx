@@ -16,12 +16,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/registrar")({
   head: () => ({
     meta: [
-      { title: "Registrar visita — Campanha Eleitoral" },
+      { title: "Registrar visita — Campanha Eleitoral Juazeiro" },
       {
         name: "description",
         content: "Formulário rápido para registrar a intenção de voto de cada visita.",
       },
-      { property: "og:title", content: "Registrar visita — Campanha Eleitoral" },
+      { property: "og:title", content: "Registrar visita — Campanha Eleitoral Juazeiro" },
       {
         property: "og:description",
         content: "Anote presidente, governador e deputados de cada casa visitada.",
@@ -38,7 +38,7 @@ const emptyChoices: Choices = { president: "", governor: "", federal: "", state:
 const emptyOthers: Others = { president: "", governor: "", federal: "", state: "" };
 
 function getOptionStyle(option: string, selected: boolean) {
-  if (option === "LULA 13" || option === "ELMANO 13" || option === "FERNANDO SANTANA" || option === "ZÉ AILTON") {
+  if (option === "LULA 13" || option === "ELMANO 13" || option === "Fernando" || option === "Zé Ailton") {
     return selected
       ? "border-red-700 bg-red-600 text-white ring-4 ring-red-600/30 scale-[1.02]"
       : "border-red-700/50 bg-red-600/80 text-white hover:bg-red-600";
@@ -48,17 +48,17 @@ function getOptionStyle(option: string, selected: boolean) {
       ? "border-green-700 bg-green-600 text-yellow-400 ring-4 ring-green-600/30 scale-[1.02]"
       : "border-green-700/50 bg-green-600/80 text-yellow-400/90 hover:bg-green-600 hover:text-yellow-400";
   }
-  if (option === "YURI") {
+  if (option === "Yuri") {
     return selected
       ? "border-green-700 bg-green-500 text-black ring-4 ring-green-500/30 scale-[1.02]"
       : "border-green-700/50 bg-green-500/80 text-black hover:bg-green-500";
   }
-  if (option === "FELIPE VASQUES") {
+  if (option === "Felipe Vasques") {
     return selected
       ? "border-green-700 bg-green-600 text-white ring-4 ring-green-600/30 scale-[1.02]"
       : "border-green-700/50 bg-green-600/80 text-white hover:bg-green-600";
   }
-  if (option === "CIRO 45" || option === "FERNANDA PESSOA" || option === "GIOVANNI") {
+  if (option === "CIRO 45" || option === "FERNANDA PESSOA" || option === "Giovanni") {
     return selected
       ? "border-blue-700 bg-blue-600 text-white ring-4 ring-blue-600/30 scale-[1.02]"
       : "border-blue-700/50 bg-blue-600/80 text-white hover:bg-blue-600";
@@ -298,31 +298,7 @@ function RegistrarPage() {
             />
           </div>
 
-          <div className="flex flex-col gap-3 pt-2">
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="is_undecided"
-                checked={isUndecided}
-                onCheckedChange={setIsUndecided}
-              />
-              <Label htmlFor="is_undecided" className="cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Família ou eleitor possui indecisos?
-              </Label>
-            </div>
-            {isUndecided === true && (
-              <div className="space-y-1.5 pl-6">
-                <Label htmlFor="undecided_details" className="text-xs text-muted-foreground">Detalhes da indecisão (quais candidatos, motivos, etc)</Label>
-                <Textarea
-                  id="undecided_details"
-                  className="min-h-[80px] resize-y"
-                  value={undecidedDetails}
-                  onChange={(e) => setUndecidedDetails(e.target.value)}
-                  placeholder="Ex.: Em dúvida entre candidato A e B para governador..."
-                  maxLength={1000}
-                />
-              </div>
-            )}
-          </div>
+
 
         </section>
 

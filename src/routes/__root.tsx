@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Registro de Visitas — Campanha Eleitoral" },
+      { title: "Registro de Visitas — Campanha Eleitoral Juazeiro" },
       {
         name: "description",
-        content: "Registro de visitas e intenção de voto para campanha eleitoral.",
+        content: "Registro de visitas e intenção de voto para campanha eleitoral Juazeiro.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

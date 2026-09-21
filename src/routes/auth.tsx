@@ -10,16 +10,16 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Entrar — Registro de Visitas da Campanha" },
+      { title: "Entrar — Registro de Visitas da Campanha Juazeiro" },
       {
         name: "description",
         content:
           "Acesse sua conta para registrar visitas e acompanhar as intenções de voto da campanha.",
       },
-      { property: "og:title", content: "Entrar — Registro de Visitas da Campanha" },
+      { property: "og:title", content: "Entrar — Registro de Visitas da Campanha Juazeiro" },
       {
         property: "og:description",
-        content: "Acesse sua conta para registrar visitas da campanha eleitoral.",
+        content: "Acesse sua conta para registrar visitas da campanha eleitoral Juazeiro.",
       },
     ],
   }),
@@ -56,7 +56,7 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-primary px-4 py-10">
       <div className="w-full max-w-sm rounded-3xl bg-card p-6 shadow-xl">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Campanha eleitoral
+          Campanha eleitoral Juazeiro
         </p>
         <h1 className="mt-1 font-display text-2xl font-bold text-foreground">
           Registro de Visitas
